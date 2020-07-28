@@ -10,7 +10,7 @@ module "label" {
 }
 
 locals {
-  gophish_port = 3333
+  gophish_port     = 3333
   landingpage_port = 8080
 }
 

@@ -30,5 +30,3 @@ variable "mysql_storage" {
   type    = number
   default = 20
 }
-
-

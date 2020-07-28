@@ -20,7 +20,7 @@ variable "gophish_alb_port" {
 }
 
 variable "landingpage_alb_port" {
-    type = number
+  type = number
 }
 
 variable "vpc_id" {
