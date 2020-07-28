@@ -1,37 +1,39 @@
----
-version: "3.7"
-
-# This docker-compose file is used to build and test the container
-
-secrets:
-  quote_txt:
-    file: ./src/secrets/quote.txt
+version: "3.5"
 
 services:
-  example:
-    # Run the container normally
+  gophish:
     build:
-      # VERSION must be specified on the command line:
-      # e.g., --build-arg VERSION=0.0.1
       context: .
-      dockerfile: Dockerfile
-    image: cisagov/example
-    init: true
-    restart: "no"
-    environment:
-      - ECHO_MESSAGE=Hello World from docker-compose!
+    container_name: pca-gophish
+    hostname: gophish
+    restart: unless-stopped
     ports:
-      - target: "8080"
-        published: "8080"
-        protocol: tcp
-        mode: host
-    secrets:
-      - source: quote_txt
-        target: quote.txt
+      - "3333:3333"
+      - "8080:8080"
+    depends_on:
+      - mysql
+    networks:
+      - backend
+    env_file:
+      - .env
+  mysql:
+    image: mysql:latest
+    container_name: pca-gophish-db
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./etc/mysql/:/docker-entrypoint-initdb.d/
+      - ./etc/mysql/my.cnf:/etc/mysql/my.cnf
+    networks:
+      - backend
+    env_file:
+      - .env
 
-  example-version:
-    # Run the container to collect version information
-    image: cisagov/example
-    init: true
-    restart: "no"
-    command: --version
+volumes:
+  mysql_data:
+
+networks:
+  backend:
+    name: pca_backend
