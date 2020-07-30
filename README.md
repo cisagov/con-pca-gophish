@@ -1,64 +1,65 @@
-# skeleton-docker 💀🐳 #
+# Con-PCA GoPhish
 
-[![GitHub Build Status](https://github.com/cisagov/skeleton-docker/workflows/build/badge.svg)](https://github.com/cisagov/skeleton-docker/actions)
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/cisagov/skeleton-docker.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/cisagov/skeleton-docker/alerts/)
-[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/cisagov/skeleton-docker.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/cisagov/skeleton-docker/context:python)
+## Features
 
-## Docker Image ##
+- [Docker](https://www.docker.com/)
+- [MySQL Database](https://www.mysql.com/)
 
-![MicroBadger Layers](https://img.shields.io/microbadger/layers/cisagov/example.svg)
-![MicroBadger Size](https://img.shields.io/microbadger/image-size/cisagov/example.svg)
+## Requirements
 
-This is a docker skeleton project that can be used to quickly get a
-new [cisagov](https://github.com/cisagov) GitHub docker project
-started.  This skeleton project contains [licensing
-information](LICENSE), as well as [pre-commit hooks](https://pre-commit.com)
-and [GitHub Actions](https://github.com/features/actions) configurations
-appropriate for docker containers and the major languages that we use.
+For local setup, Get the right flavor of Docker for your OS...
 
-## Usage ##
+- [Docker for Mac](https://docs.docker.com/docker-for-mac/install/)
+- [Docker for Ubuntu](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
+- [Docker for Windows](https://docs.docker.com/docker-for-windows/install/)
 
-### Install ###
+**Note:** The recommended requirement for deployment of this project is 4 GB RAM.
+For Docker for Mac, this can be set by following these steps:
 
-Pull `cisagov/example` from the Docker repository:
+Open Docker > Preferences > Advanced tab, then set memory to 4.0 GiB
 
-    docker pull cisagov/example
+A registered domain name
 
-Or build `cisagov/example` from source:
+## Setup locally
 
-    git clone https://github.com/cisagov/skeleton-docker.git
-    cd skeleton-docker
-    docker-compose build --build-arg VERSION=0.0.1
+- Create your env file
+  - `make env`
+- Build containers
+  - `make build`
+- Run GoPhish
+  - `make up`
+- Return GoPhish app logs
+  - `make logs`
 
-### Run ###
+- GoPhish admin UI is running on `localhost:3333`
+- Phishing server is running on `localhost:8080`
 
-    docker-compose run --rm example
+## Set up webhooks
 
-## Ports ##
+- Log onto admin UI located at `localhost:3333`
+- Naviagate to "Webhooks" panal
+- select: `+ New Webhook`
+  - name: `Local Webhook`
+  - url: `http://pca-api:8000/api/v1/inboundwebhook/`
+  - Is active: `true`
+  - Save!
+- test the connection via `ping` button
+- Webhooks are now setup for `con-pca`
 
-This container exposes the following ports:
+### GoPhish Credentials
+- run `docker logs pca-gophish`
+  - look for your username and password
+- visit: `localhost:3333`
+  - login with the credentials found in the logs
+  - update your password
 
-| Port  | Protocol | Service  |
-|-------|----------|----------|
-| 8080  | TCP      | http     |
+### Stop and Remove project containers
 
-## Environment Variables ##
+- Stop all containers
+  - `make stop`
+- Remove all containers
+  - `make down`
 
-| Variable      | Default Value                 | Purpose      |
-|---------------|-------------------------------|--------------|
-| ECHO_MESSAGE  | `Hello World from Dockerfile` | Text to echo |
-
-## Secrets ##
-
-| Filename      | Purpose              |
-|---------------|----------------------|
-| quote.txt     | Secret text to echo  |
-
-## Volumes ##
-
-| Mount point | Purpose        |
-|-------------|----------------|
-| /var/log    | logging output |
 
 ## Contributing ##
 
