@@ -7,7 +7,6 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v3.1.0
     hooks:
-      - id: check-executables-have-shebangs
       - id: check-json
       - id: check-merge-conflict
       - id: check-xml
@@ -27,10 +26,6 @@ repos:
           - --autofix
       - id: requirements-txt-fixer
       - id: trailing-whitespace
-  - repo: https://github.com/adrienverge/yamllint
-    rev: v1.23.0
-    hooks:
-      - id: yamllint
   - repo: https://gitlab.com/pycqa/flake8
     rev: 3.8.3
     hooks:
