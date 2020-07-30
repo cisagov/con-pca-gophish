@@ -134,7 +134,7 @@ module "container" {
 
 resource "aws_ecs_task_definition" "_" {
   family                   = module.label.id
-  container_definitions    = module.container.json
+  container_definitions    = module.container.json_map_encoded_list
   cpu                      = var.cpu
   execution_role_arn       = aws_iam_role.ecs_execution.arn
   memory                   = var.memory
