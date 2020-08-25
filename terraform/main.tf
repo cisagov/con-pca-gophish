@@ -47,8 +47,8 @@ module "rds" {
   engine_version     = "5.7"
   instance_class     = var.mysql_instance_class
   security_group_ids = [aws_security_group.gophish.id]
-  subnet_ids         = data.aws_subnet_ids.public.ids
-  vpc_id             = data.aws_vpc.vpc.id
+  subnet_ids         = var.public_subnet_ids
+  vpc_id             = var.vpc_id
 }
 
 # ===========================
@@ -63,7 +63,7 @@ module "gophish" {
   iam_server_cert_arn   = data.aws_iam_server_certificate.self.arn
   gophish_alb_port      = 3333
   landingpage_alb_port  = 80
-  vpc_id                = data.aws_vpc.vpc.id
+  vpc_id                = var.vpc_id
   health_check_interval = 60
   health_check_path     = "/"
   health_check_codes    = "307,202,200,404"
@@ -84,7 +84,7 @@ module "gophish" {
   }
 
   desired_count      = 1
-  subnet_ids         = data.aws_subnet_ids.private.ids
+  subnet_ids         = var.private_subnet_ids
   security_group_ids = [aws_security_group.gophish.id]
 }
 
@@ -94,7 +94,7 @@ module "gophish" {
 resource "aws_security_group" "gophish" {
   name        = "${var.app}-${var.env}-gophish-alb"
   description = "Allow traffic for gophish from alb"
-  vpc_id      = data.aws_vpc.vpc.id
+  vpc_id      = var.vpc_id
 
   ingress {
     description     = "Allow container port from ALB"
