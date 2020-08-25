@@ -29,6 +29,7 @@ A registered domain name
 - Run GoPhish
   - `make up`
 - Return GoPhish app logs
+
   - `make logs`
 
 - GoPhish admin UI is running on `localhost:3333`
@@ -47,6 +48,7 @@ A registered domain name
 - Webhooks are now setup for `con-pca`
 
 ### GoPhish Credentials
+
 - run `docker logs pca-gophish`
   - look for your username and password
 - visit: `localhost:3333`
@@ -60,13 +62,12 @@ A registered domain name
 - Remove all containers
   - `make down`
 
+## Contributing
 
-## Contributing ##
-
-We welcome contributions!  Please see [here](CONTRIBUTING.md) for
+We welcome contributions! Please see [here](CONTRIBUTING.md) for
 details.
 
-## License ##
+## License
 
 This project is in the worldwide [public domain](LICENSE).
 
