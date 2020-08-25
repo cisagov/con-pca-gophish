@@ -14,4 +14,4 @@ public_subnet_ids = [
     "subnet-0ea8f699bed93417c"
 ]
 
-image_repo = "780016325729.dkr.ecr.us-east-1.amazonaws.com/con-pca-api"
+image_repo = "780016325729.dkr.ecr.us-east-1.amazonaws.com/con-pca-gophish"
