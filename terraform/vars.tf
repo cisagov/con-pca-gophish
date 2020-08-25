@@ -40,3 +40,7 @@ variable "mysql_storage" {
   type    = number
   default = 20
 }
+
+variable "domain_name" {
+  type = string
+}

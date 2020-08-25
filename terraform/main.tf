@@ -60,7 +60,7 @@ module "gophish" {
   stage                 = "${var.env}"
   name                  = "gophish"
   log_retention         = 7
-  iam_server_cert_arn   = data.aws_iam_server_certificate.self.arn
+  iam_server_cert_arn   = data.aws_acm_certificate.cert.arn
   gophish_alb_port      = 3333
   landingpage_alb_port  = 80
   vpc_id                = var.vpc_id
