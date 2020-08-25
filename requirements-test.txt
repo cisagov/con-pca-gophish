@@ -1,4 +1,0 @@
---requirement requirements.txt
-pre-commit
-pytest
-pytest-dockerc
