@@ -3,5 +3,4 @@
 .python-version
 __pycache__
 
-.terraform
 .env
