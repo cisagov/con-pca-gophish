@@ -131,7 +131,9 @@ func (limiter *PostLimiter) Limit(next http.Handler) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		clientIP, _, err := net.SplitHostPort(r.RemoteAddr)
 		if err != nil {
-			clientIP = r.RemoteAddr
+			log.Errorf("Unable to determine client IP address: %v", err)
+			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			return
 		}
 		if r.Method == http.MethodPost && !limiter.allow(clientIP) {
 			log.Error("")

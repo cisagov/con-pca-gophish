@@ -4,7 +4,7 @@ FROM node:latest AS build-js
 RUN npm install gulp gulp-cli -g
 
 WORKDIR /build
-COPY ./src/gophish/ .
+COPY ./src/gophish .
 RUN npm install --only=dev
 RUN gulp
 
@@ -13,7 +13,7 @@ RUN gulp
 FROM golang:1.13 AS build-golang
 
 WORKDIR /go/src/github.com/gophish/gophish
-COPY ./src/gophish/ .
+COPY ./src/gophish .
 RUN go get -v && go build -v
 
 
