@@ -121,10 +121,6 @@ func (ps *PhishingServer) registerRoutes() {
 	gzipWrapper, _ := gziphandler.NewGzipLevelHandler(gzip.BestCompression)
 	phishHandler := gzipWrapper(router)
 
-	// Respect X-Forwarded-For and X-Real-IP headers in case we're behind a
-	// reverse proxy.
-	phishHandler = handlers.ProxyHeaders(phishHandler)
-
 	// Setup logging
 	phishHandler = handlers.CombinedLoggingHandler(log.Writer(), phishHandler)
 	ps.server.Handler = phishHandler
@@ -360,7 +356,12 @@ func setupContext(r *http.Request) (*http.Request, error) {
 	}
 	ip, _, err := net.SplitHostPort(r.RemoteAddr)
 	if err != nil {
-		ip = r.RemoteAddr
+		log.Error(err)
+		return r, err
+	}
+	// Respect X-Forwarded headers
+	if fips := r.Header.Get("X-Forwarded-For"); fips != "" {
+		ip = strings.Split(fips, ", ")[0]
 	}
 	// Handle post processing such as GeoIP
 	err = rs.UpdateGeo(ip)

@@ -33,7 +33,6 @@ type userRequest struct {
 	Password               string `json:"password"`
 	Role                   string `json:"role"`
 	PasswordChangeRequired bool   `json:"password_change_required"`
-	AccountLocked          bool   `json:"account_locked"`
 }
 
 func (ur *userRequest) Validate(existingUser *models.User) error {
@@ -103,12 +102,11 @@ func (as *Server) Users(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		user := models.User{
-			Username:               ur.Username,
-			Hash:                   hash,
-			ApiKey:                 auth.GenerateSecureKey(auth.APIKeyLength),
-			Role:                   role,
-			RoleID:                 role.ID,
-			PasswordChangeRequired: ur.PasswordChangeRequired,
+			Username: ur.Username,
+			Hash:     hash,
+			ApiKey:   auth.GenerateSecureKey(auth.APIKeyLength),
+			Role:     role,
+			RoleID:   role.ID,
 		}
 		err = models.PutUser(&user)
 		if err != nil {
